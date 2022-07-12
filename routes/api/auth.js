@@ -1,20 +1,20 @@
 const express = require('express');
 
 const { auth: ctrl } = require('../../controllers');
-const { ctrlWrapper, validateBody, isValidId } = require('../../middleware');
-const { joiSchema } = require('../../models/book');
+const { ctrlWrapper, validateBody} = require('../../middleware');
+const { JoiSchema } = require('../../models/user');
 
 const router = express.Router();
 
 // Если нужен будет
 router.get('/');
-//
+
 
 router.get('/:userId');
 
-router.post('/signup', ctrlWrapper(ctrl.signUp));
+router.post('/signup', validateBody(JoiSchema.registerUser), ctrlWrapper(ctrl.signUp));
 
-router.post('/login', ctrlWrapper(ctrl.signIn));
+router.post('/login', validateBody(JoiSchema.loginUser), ctrlWrapper(ctrl.signIn));
 
 router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
 

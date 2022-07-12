@@ -8,7 +8,7 @@ const message = 'Not authorized.';
 
 const authenticate = async (req, res, next) => {
   try {
-    const { authorization = '' } = req.params;
+    const { authorization = '' } = req.headers;
     const [bearer, token] = authorization.split(' ');
 
     if (bearer !== 'Bearer') {

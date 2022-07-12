@@ -7,7 +7,7 @@ const app = express();
 
 const authRouter = require('./routes/api/auth');
 const booksRouter = require('./routes/api/books');
-const trainingRouter = require('./routes/api/training');
+// const trainingRouter = require('./routes/api/training');
 
 app.use(cors());
 app.use(express.json());
@@ -22,7 +22,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   const { status = 500, message = 'Server error' } = err;
-  res.status(status).json({ message });
+  res.status(status).json({ message: err.message });
 });
 
 module.exports = app;

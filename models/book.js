@@ -10,7 +10,7 @@ const bookSchema = Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     author: {
       type: String,
@@ -50,7 +50,7 @@ const bookSchema = Schema(
           type: Date,
         },
         pagesRead: {
-          type: String,
+          type: Number,
         },
       },
     ],
@@ -77,7 +77,7 @@ const JoiBookSchema = Joi.object({
   statistics: Joi.array().items(
     Joi.object({
       date: Joi.date(),
-      pagesRead: Joi.string(),
+      pagesRead: Joi.number(),
     })
   ),
 });
