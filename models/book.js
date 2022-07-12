@@ -60,7 +60,7 @@ const bookSchema = Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 const JoiBookSchema = Joi.object({
