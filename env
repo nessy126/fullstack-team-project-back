@@ -1,0 +1,10 @@
+DB_HOST=mongodb+srv://eugenbah:10GiAXyTWGmMJrbh@cluster0.wwcdsci.mongodb.net/db-books-reading?retryWrites=true&w=majority
+
+SECRET_KEY = kjsdvj392kc01c111S43
+
+/*
+pass = 10GiAXyTWGmMJrbh
+username = eugenbah
+db name = db-books-reading
+string to coonect MongoDB Compass = mongodb+srv://eugenbah:<password>@cluster0.wwcdsci.mongodb.net/db-books-reading
+*/
