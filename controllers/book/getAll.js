@@ -1,7 +1,9 @@
 const { Book } = require("../../models/book")
 
 const getAll = async (req, res) => {
-  const books = await Book.find()
+  const {_id: owner} = req.user;
+
+  const books = await Book.find({owner}, "-createdAt -updatedAt").populate("owner", "email name");
   res.json(books)
 }
 

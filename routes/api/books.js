@@ -6,14 +6,14 @@ const { joiSchema } = require('../../models/book');
 
 const router = express.Router();
 
-router.get('/', ctrlWrapper(ctrl.getAll) );
+router.get('/', authenticate, ctrlWrapper(ctrl.getAll) );
 
-router.get('/:bookId', isValidId, ctrlWrapper() );
+// router.get('/:bookId', isValidId, ctrlWrapper() );
 
-router.post('/', ctrlWrapper(ctrl.addBook));
+router.post('/', authenticate, ctrlWrapper(ctrl.addBook));
 
-router.get('/feedback/:bookId', isValidId );
+// router.get('/feedback/:bookId', isValidId );
 
-router.post('/feedback/add/:bookId', isValidId );
+// router.post('/feedback/add/:bookId', isValidId );
 
 module.exports = router;
