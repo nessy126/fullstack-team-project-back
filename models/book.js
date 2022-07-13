@@ -44,16 +44,7 @@ const bookSchema = Schema(
         default: '',
       },
     },
-    statistics: [
-      {
-        date: {
-          type: Date,
-        },
-        pagesRead: {
-          type: Number,
-        },
-      },
-    ],
+
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'user',
@@ -74,12 +65,6 @@ const JoiBookSchema = Joi.object({
     rating: Joi.number(),
     comment: Joi.string(),
   }),
-  statistics: Joi.array().items(
-    Joi.object({
-      date: Joi.date(),
-      pagesRead: Joi.number(),
-    })
-  ),
 });
 
 const Book = model('book', bookSchema);

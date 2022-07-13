@@ -1,25 +1,23 @@
 const express = require('express');
-
-const { auth: ctrl } = require('../../controllers');
-const { ctrlWrapper, validateBody} = require('../../middleware');
-const { JoiSchema } = require('../../models/user');
-
 const router = express.Router();
 
+const { auth: ctrl } = require('../../controllers');
+const { ctrlWrapper, validateBody, authenticate} = require('../../middleware');
+const { JoiSchema } = require('../../models/user');
+
 // Если нужен будет
-router.get('/');
+// router.get('/');
 
+// router.get('/:userId');
 
-router.get('/:userId');
+router.post('/signup', validateBody(JoiSchema.registerUser), ctrlWrapper(ctrl.signUp)); // работает
 
-router.post('/signup', validateBody(JoiSchema.registerUser), ctrlWrapper(ctrl.signUp));
+router.post('/login', validateBody(JoiSchema.loginUser), ctrlWrapper(ctrl.login)); // работает
 
-router.post('/login', validateBody(JoiSchema.loginUser), ctrlWrapper(ctrl.signIn));
+// router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
 
-router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
+// router.post('/verify', ctrlWrapper(ctrl.resendVerifyEmail));
 
-router.post('/verify', ctrlWrapper(ctrl.resendVerifyEmail));
-
-router.get('/logout', ctrlWrapper(ctrl.logOut));
+router.get('/logout', authenticate, ctrlWrapper(ctrl.logOut));
 
 module.exports = router;
