@@ -1,16 +1,13 @@
 const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
+const { User } = require('../../models/user');
 
 const { createError } = require('../../helpers/');
 
 const addTraining = async (req, res, next) => {
   const { books, end } = req.body;
   let { start } = req.body;
-
-  const booksList = await Book.find({ _id: { $in: books } });
-  const amountOfPages = booksList.filter(
-    el => el.status === 'inReading'
-  ).length;
+  const user = req.user;
 
   const training = await Training.create({
     books,
@@ -31,6 +28,8 @@ const addTraining = async (req, res, next) => {
       throw createError(404);
     }
   };
+
+  await User.findByIdAndUpdate({ _id: user.id }, { training: training._id });
 
   training.books.forEach(el => {
     setStatus(el);

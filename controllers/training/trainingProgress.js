@@ -4,9 +4,10 @@ const { Book } = require('../../models/book');
 const { createError } = require('../../helpers/');
 
 const trainingProgress = async (req, res, next) => {
-  const ID = '62ced0389cdb18af84476d37';
+  const { training } = req.user;
+
   const { books, start, end, amountOfDays, amountOfPages, pagesPerDay } =
-    await Training.findById({ _id: ID });
+    await Training.findById({ _id: training });
 
   const booksList = await Book.find({ _id: { $in: books } });
 

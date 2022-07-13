@@ -12,8 +12,13 @@ const { joiSchema } = require('../../models/training');
 
 const router = express.Router();
 
-router.get('/', ctrlWrapper(ctrl.progress));
+router.get('/', authenticate, ctrlWrapper(ctrl.progress));
 
-router.post('/start', validateBody(joiSchema.start), ctrlWrapper(ctrl.start));
+router.post(
+  '/start',
+  authenticate,
+  validateBody(joiSchema.start),
+  ctrlWrapper(ctrl.start)
+);
 
 module.exports = router;
