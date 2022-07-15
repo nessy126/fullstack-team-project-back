@@ -9,7 +9,7 @@ const trainingProgress = async ({ user: { _id } }, res) => {
     amountOfPages,
     pagesPerDay,
     statistics,
-  } = await Training.findOne(_id);
+  } = await Training.findOne({ owner: _id, isActive: true });
 
   const booksList = await Book.find(
     { _id: { $in: booksId } },
