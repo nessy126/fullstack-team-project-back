@@ -1,21 +1,38 @@
 const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
 
-const { createError } = require('../../helpers/');
+const trainingProgress = async ({ user: { _id } }, res) => {
+  const {
+    booksId,
+    startTraining,
+    endTraining,
+    amountOfPages,
+    pagesPerDay,
+    statistics,
+  } = await Training.findOne(_id);
 
-const trainingProgress = async (req, res, next) => {
-  const { training } = req.user;
+  const booksList = await Book.find(
+    { _id: { $in: booksId } },
+    '-createdAt -updatedAt'
+  );
 
-  const { books, start, end, amountOfDays, amountOfPages, pagesPerDay } =
-    await Training.findById({ _id: training });
+  const amountOfBooks = booksList.length;
 
-  const booksList = await Book.find({ _id: { $in: books } });
+  const booksLeft = booksList.filter(
+    ({ status }) => status === 'inReading'
+  ).length;
 
-  const amountOfBooks = books.length;
-
-  const booksLeft = booksList.filter(el => el.status === 'inReading').length;
-
-  res.status(200).json({ booksList, amountOfBooks, booksLeft, end });
+  res.status(200).json({
+    booksId,
+    booksList,
+    amountOfBooks,
+    booksLeft,
+    startTraining,
+    endTraining,
+    amountOfPages,
+    pagesPerDay,
+    statistics,
+  });
 };
 
 module.exports = trainingProgress;

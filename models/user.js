@@ -21,6 +21,10 @@ const userSchema = Schema(
       required: true,
       minlength: 6,
     },
+    isTrainingActive: {
+      type: Boolean,
+      default: false,
+    },
     token: {
       type: String,
       default: '',

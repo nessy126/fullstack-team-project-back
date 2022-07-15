@@ -1,9 +1,10 @@
 const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
+const { User } = require('../../models/user');
 
 const { createError } = require('../../helpers/');
 
-const addTraining = async ({ user, body }, res) => {
+const addTraining = async ({ user: { _id }, body }, res) => {
   const { booksId, endTraining, startTraining } = body;
   const booksList = await Book.find({ _id: { $in: booksId } });
 
@@ -20,7 +21,7 @@ const addTraining = async ({ user, body }, res) => {
 
   const training = await Training.create({
     ...body,
-    owner: user._id,
+    owner: _id,
     amountOfDays,
     amountOfPages,
     pagesPerDay,
@@ -38,6 +39,8 @@ const addTraining = async ({ user, body }, res) => {
   if (!setStatus) {
     throw createError(404);
   }
+
+  await User.findByIdAndUpdate(_id, { isTrainingActive: true });
 
   res.status(201).json(training);
 };

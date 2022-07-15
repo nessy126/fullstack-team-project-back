@@ -21,18 +21,22 @@ const trainingSchema = Schema(
     },
     factEndTraining: {
       type: Number,
+      default: null,
     },
     amountOfDays: {
       type: Number,
       min: [1, 'Training should be minimum 1 day long.'],
+      default: null,
     },
     amountOfPages: {
       type: Number,
       min: 1,
+      default: null,
     },
     pagesPerDay: {
       type: Number,
       min: 1,
+      default: null,
     },
     statistics: [
       {
@@ -57,7 +61,7 @@ const trainingSchema = Schema(
       ref: 'user',
       required: true,
     },
-    isTrainingActive: {
+    isActive: {
       type: Boolean,
       default: true,
     },
