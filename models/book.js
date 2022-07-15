@@ -37,7 +37,7 @@ const bookSchema = Schema(
       rating: {
         type: Number,
         match: [CODE_REGEXP.RATING, 'wrong data'],
-        default: 0,
+        default: null,
       },
       comment: {
         type: String,

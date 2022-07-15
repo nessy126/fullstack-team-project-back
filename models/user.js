@@ -30,7 +30,7 @@ const userSchema = Schema(
       default: '',
     },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 const registerUser = Joi.object({

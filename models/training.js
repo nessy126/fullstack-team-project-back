@@ -1,8 +1,6 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 
-const { errorFunc } = require('../helpers');
-
 const trainingSchema = Schema(
   {
     booksId: [
@@ -42,7 +40,6 @@ const trainingSchema = Schema(
       {
         date: {
           type: Date,
-          min: 0,
           required: true,
         },
         time: {
@@ -51,7 +48,7 @@ const trainingSchema = Schema(
         },
         pagesRead: {
           type: Number,
-          min: 0,
+          min: 1,
           required: true,
         },
       },
@@ -70,17 +67,9 @@ const trainingSchema = Schema(
 );
 
 const trainingAddJoiSchema = Joi.object({
-  booksId: Joi.array()
-    .items(Joi.string())
-    .min(1)
-    .required()
-    .error(err => errorFunc(err)),
-  startTraining: Joi.number()
-    .required()
-    .error(err => errorFunc(err)),
-  endTraining: Joi.number()
-    .required()
-    .error(err => errorFunc(err)),
+  booksId: Joi.array().items(Joi.string()).min(1).required(),
+  startTraining: Joi.number().required(),
+  endTraining: Joi.number().required(),
 });
 
 const Training = model('training', trainingSchema);

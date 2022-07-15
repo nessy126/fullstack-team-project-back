@@ -1,7 +1,8 @@
 const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
 
-const trainingProgress = async ({ user: { _id } }, res) => {
+const trainingProgress = async ({ user }, res) => {
+  const { _id } = user;
   const {
     booksId,
     startTraining,
@@ -22,7 +23,7 @@ const trainingProgress = async ({ user: { _id } }, res) => {
     ({ status }) => status === 'inReading'
   ).length;
 
-  res.status(200).json({
+  const responseObj = {
     booksId,
     booksList,
     amountOfBooks,
@@ -32,7 +33,9 @@ const trainingProgress = async ({ user: { _id } }, res) => {
     amountOfPages,
     pagesPerDay,
     statistics,
-  });
+  };
+
+  res.status(200).json(responseObj);
 };
 
 module.exports = trainingProgress;

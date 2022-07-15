@@ -4,7 +4,8 @@ const { User } = require('../../models/user');
 
 const { createError } = require('../../helpers/');
 
-const addTraining = async ({ user: { _id }, body }, res) => {
+const addTraining = async ({ user, body }, res) => {
+  const { _id } = user;
   const { booksId, endTraining, startTraining } = body;
   const booksList = await Book.find({ _id: { $in: booksId } });
 
@@ -31,12 +32,12 @@ const addTraining = async ({ user: { _id }, body }, res) => {
     throw createError(404);
   }
 
-  const setStatus = await Book.updateMany(
+  const bookStatus = await Book.updateMany(
     { _id: { $in: training.booksId } },
     { status: 'inReading' }
   );
 
-  if (!setStatus) {
+  if (!bookStatus.matchedCount) {
     throw createError(404);
   }
 
