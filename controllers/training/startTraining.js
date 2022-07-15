@@ -1,41 +1,45 @@
 const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
-const { User } = require('../../models/user');
 
 const { createError } = require('../../helpers/');
 
-const addTraining = async (req, res, next) => {
-  const { books, end } = req.body;
-  let { start } = req.body;
-  const user = req.user;
+const addTraining = async ({ user, body }, res) => {
+  const { booksId, endTraining, startTraining } = body;
+  const booksList = await Book.find({ _id: { $in: booksId } });
+
+  const amountOfDays = Math.ceil(
+    (endTraining - startTraining) / (1000 * 3600 * 24)
+  );
+
+  const amountOfPages = booksList.reduce(
+    (sum, { pageTotal }) => sum + pageTotal,
+    0
+  );
+
+  const pagesPerDay = Math.round(amountOfPages / amountOfDays);
 
   const training = await Training.create({
-    books,
-    start,
-    end,
+    ...body,
+    owner: user._id,
+    amountOfDays,
+    amountOfPages,
+    pagesPerDay,
   });
 
   if (!training) {
     throw createError(404);
   }
 
-  const setStatus = async id => {
-    const result = await Book.findByIdAndUpdate(
-      { _id: id },
-      { status: 'inReading' }
-    );
-    if (!result) {
-      throw createError(404);
-    }
-  };
+  const setStatus = await Book.updateMany(
+    { _id: { $in: training.booksId } },
+    { status: 'inReading' }
+  );
 
-  await User.findByIdAndUpdate({ _id: user.id }, { training: training._id });
+  if (!setStatus) {
+    throw createError(404);
+  }
 
-  training.books.forEach(el => {
-    setStatus(el);
-  });
-
-  res.status(201).json({ message: 'Training start' });
+  res.status(201).json(training);
 };
 
 module.exports = addTraining;

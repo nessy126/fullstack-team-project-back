@@ -5,19 +5,22 @@ const { errorFunc } = require('../helpers');
 
 const trainingSchema = Schema(
   {
-    books: [
+    booksId: [
       {
         type: Schema.Types.ObjectId,
         ref: 'book',
       },
     ],
-    start: {
-      type: Date,
+    startTraining: {
+      type: Number,
       required: [true, 'Training start date required.'],
     },
-    end: {
-      type: Date,
+    endTraining: {
+      type: Number,
       required: [true, 'Training end date required.'],
+    },
+    factEndTraining: {
+      type: Number,
     },
     amountOfDays: {
       type: Number,
@@ -38,6 +41,10 @@ const trainingSchema = Schema(
           min: 0,
           required: true,
         },
+        time: {
+          type: String,
+          required: true,
+        },
         pagesRead: {
           type: Number,
           min: 0,
@@ -45,20 +52,29 @@ const trainingSchema = Schema(
         },
       },
     ],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
+    isTrainingActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
 const trainingAddJoiSchema = Joi.object({
-  books: Joi.array()
+  booksId: Joi.array()
     .items(Joi.string())
     .min(1)
     .required()
     .error(err => errorFunc(err)),
-  start: Joi.date()
+  startTraining: Joi.number()
     .required()
     .error(err => errorFunc(err)),
-  end: Joi.date()
+  endTraining: Joi.number()
     .required()
     .error(err => errorFunc(err)),
 });

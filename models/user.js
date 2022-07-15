@@ -25,10 +25,6 @@ const userSchema = Schema(
       type: String,
       default: '',
     },
-    training: {
-      type: Schema.Types.ObjectId,
-      ref: 'training',
-    },
   },
   { versionKey: false }
 );
