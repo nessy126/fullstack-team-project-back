@@ -2,17 +2,22 @@ const express = require('express');
 const router = express.Router();
 
 const { auth: ctrl } = require('../../controllers');
-const { ctrlWrapper, validateBody, authenticate} = require('../../middleware');
+const { ctrlWrapper, validateBody, authenticate } = require('../../middleware');
 const { JoiSchema } = require('../../models/user');
 
-// Если нужен будет
-// router.get('/');
+router.post(
+  '/signup',
+  validateBody(JoiSchema.registerUser),
+  ctrlWrapper(ctrl.signUp)
+);
 
-// router.get('/:userId');
+router.post(
+  '/login',
+  validateBody(JoiSchema.loginUser),
+  ctrlWrapper(ctrl.login)
+);
 
-router.post('/signup', validateBody(JoiSchema.registerUser), ctrlWrapper(ctrl.signUp)); // работает
-
-router.post('/login', validateBody(JoiSchema.loginUser), ctrlWrapper(ctrl.login)); // работает
+router.get('/current', authenticate, ctrlWrapper(ctrl.current));
 
 // router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
 
