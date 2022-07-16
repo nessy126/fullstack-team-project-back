@@ -6,16 +6,17 @@ const { SECRET_KEY } = process.env;
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log({ email, password });
 
   const user = await User.findOne({ email });
 
   if (!user) {
-    createError(401, "User with such email doesn't exist");
+    throw createError(401, "User with such email doesn't exist");
   }
 
   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) {
-    createError(401, 'Wrong password');
+    throw createError(401, 'Wrong password');
   }
 
   const payload = {

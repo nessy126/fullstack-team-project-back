@@ -23,6 +23,6 @@ router.get('/current', authenticate, ctrlWrapper(ctrl.current));
 
 // router.post('/verify', ctrlWrapper(ctrl.resendVerifyEmail));
 
-router.get('/logout', authenticate, ctrlWrapper(ctrl.logOut));
+router.post('/logout', authenticate, ctrlWrapper(ctrl.logOut));
 
 module.exports = router;
