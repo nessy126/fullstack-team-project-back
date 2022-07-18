@@ -6,7 +6,6 @@ const { SECRET_KEY } = process.env;
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log({ email, password });
 
   const user = await User.findOne({ email });
 
@@ -31,6 +30,7 @@ const login = async (req, res) => {
     user: {
       name: user.name,
       email: user.email,
+      isTrainingActive: user.isTrainingActive,
     },
   });
 };
