@@ -17,8 +17,9 @@ router.get('/', authenticate, ctrlWrapper(ctrl.getAll));
 
 router.post('/', authenticate, ctrlWrapper(ctrl.addBook));
 
+router.post('/:bookId/feedback', authenticate, isValidId, ctrlWrapper(ctrl.addFeedBack) );
+
 // router.get('/:bookId/feedback', isValidId );
 
-// router.post('/:bookId/feedback', isValidId );
 
 module.exports = router;
