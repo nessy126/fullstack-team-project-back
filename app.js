@@ -1,7 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const sgMail = require('@sendgrid/mail');
 
 require('dotenv').config();
+
+const { SENDGRID_API_kEY } = process.env;
+
+sgMail.setApiKey(SENDGRID_API_kEY);
+
+const mail = {
+  to: 'ripoxo3705@teasya.com',
+  from: 'ieroglifr.per@gmail.com',
+  subject: 'Email confirm',
+  html: '<p>Email confirm</p>',
+};
 
 const app = express();
 
