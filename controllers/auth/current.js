@@ -1,10 +1,10 @@
 const current = async (req, res) => {
-  const { name, email } = req.user;
-  // console.log(re.user)
+  const { name, email, isTrainingActive } = req.user;
 
   res.json({
     name,
     email,
+    isTrainingActive,
   });
 };
 
