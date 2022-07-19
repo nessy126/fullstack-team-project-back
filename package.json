@@ -12,10 +12,6 @@
     "type": "git",
     "url": "git+https://github.com/nessy126/fullstack-team-project-back.git"
   },
-  "keywords": [
-    "example",
-    "heroku"
-  ],
   "author": "bootcamp14-online",
   "license": "ISC",
   "bugs": {
@@ -36,8 +32,5 @@
   "devDependencies": {
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1"
-  },
-  "engines": {
-    "node": "14.16.1"
   }
 }

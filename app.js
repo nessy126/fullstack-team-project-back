@@ -8,8 +8,8 @@ const app = express();
 const authRouter = require('./routes/api/auth');
 const booksRouter = require('./routes/api/books');
 const trainingRouter = require('./routes/api/training');
-import swaggerUi from "swagger-ui-express";
-import * as swaggerDocument from '../swager/openapi.json';
+// import swaggerUi from "swagger-ui-express";
+// import * as swaggerDocument from '../swager/openapi.json';
 
 app.use(cors());
 app.use(express.json());
@@ -27,6 +27,6 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message: err.message });
 });
 
-app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+// app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 module.exports = app;

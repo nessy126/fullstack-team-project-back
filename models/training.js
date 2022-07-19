@@ -72,11 +72,19 @@ const trainingAddJoiSchema = Joi.object({
   endTraining: Joi.number().required(),
 });
 
+const statisticsAddJoiSchema = Joi.object({
+  date: Joi.string().required(),
+  time: Joi.string().required(),
+  pagesRead: Joi.number().required()
+})
+// await statisticsAddJoiSchema.date.validateAsync('31.01.2012');
+
 const Training = model('training', trainingSchema);
 
 module.exports = {
   Training,
   joiSchema: {
     start: trainingAddJoiSchema,
+    statistics: statisticsAddJoiSchema,
   },
 };
