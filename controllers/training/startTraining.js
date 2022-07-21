@@ -26,6 +26,7 @@ const addTraining = async ({ user, body }, res) => {
     amountOfDays,
     amountOfPages,
     pagesPerDay,
+    status: 'inProcess',
   });
 
   if (!training) {
