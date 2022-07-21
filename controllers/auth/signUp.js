@@ -35,7 +35,6 @@ const addUser = async (req, res) => {
       name: user.name,
       email: user.email,
     },
-    verificationToken,
   });
 };
 
