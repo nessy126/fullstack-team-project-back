@@ -4,10 +4,8 @@ const { User, JoiSchema } = require('../../models/user');
 
 const resendVerifyEmail = async (req, res, next) => {
   const { error } = JoiSchema.verifyEmailSchema.validate(req.body);
-  //   console.log(req.body);
 
   if (error) {
-    // console.log(error);
     throw createError(400, 'missing required filed email');
   }
 
