@@ -58,9 +58,10 @@ const trainingSchema = Schema(
       ref: 'user',
       required: true,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      enum: ['created', 'inProcess', 'finished'],
+      default: 'created',
     },
   },
   { versionKey: false, timestamps: true }
@@ -77,7 +78,11 @@ const statisticsAddJoiSchema = Joi.object({
   time: Joi.string().required(),
   pagesRead: Joi.number().required()
 })
-// await statisticsAddJoiSchema.date.validateAsync('31.01.2012');
+
+const finishDataJoiSchema = Joi.object({
+  trainingID: Joi.string().required(),
+  factEndTraining: Joi.number().required(),
+})
 
 const Training = model('training', trainingSchema);
 
@@ -86,5 +91,6 @@ module.exports = {
   joiSchema: {
     start: trainingAddJoiSchema,
     statistics: statisticsAddJoiSchema,
+    finish: finishDataJoiSchema
   },
 };
