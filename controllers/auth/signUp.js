@@ -31,10 +31,8 @@ const addUser = async (req, res) => {
   await sendMail(mail);
 
   res.status(201).json({
-    user: {
-      name: user.name,
-      email: user.email,
-    },
+    name: user.name,
+    email: user.email,
   });
 };
 
