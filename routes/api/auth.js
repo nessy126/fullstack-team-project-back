@@ -19,9 +19,9 @@ router.post(
 
 router.get('/current', authenticate, ctrlWrapper(ctrl.current));
 
-// router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
+router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
 
-// router.post('/verify', ctrlWrapper(ctrl.resendVerifyEmail));
+router.post('/verify', ctrlWrapper(ctrl.resendVerifyEmail));
 
 router.post('/logout', authenticate, ctrlWrapper(ctrl.logOut));
 
