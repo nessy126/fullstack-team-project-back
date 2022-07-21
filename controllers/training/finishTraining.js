@@ -4,7 +4,6 @@ const { User } = require('../../models/user');
 
 const finishTraining = async (req, res) => {
   const {_id} = req.user;
-  console.log("id");
   const { trainingID, factEndTraining } = req.body;
 
   const results = await Training.findByIdAndUpdate(
@@ -18,8 +17,6 @@ const finishTraining = async (req, res) => {
   }
 
   const updateUserTraining = await User.findByIdAndUpdate(_id, {isTrainingActive: false} , { new: true })
-  console.log(updateUserTraining);
-
 
   res.json({
     user: {
