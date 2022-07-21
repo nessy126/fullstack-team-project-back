@@ -43,7 +43,6 @@ const addTraining = async ({ user, body }, res) => {
   }
 
   await User.findByIdAndUpdate(_id, { isTrainingActive: true });
-  console.log(training);
 
   res.status(201).json(training);
 };
