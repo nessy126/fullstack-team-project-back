@@ -3,7 +3,6 @@ const { User } = require('../../models/user');
 
 const verifyEmail = async (req, res, next) => {
   const { verificationToken } = req.params;
-  //   console.log(verificationToken);
   const user = await User.findOne({ verificationToken });
   if (!user) {
     throw createError(404, 'Something went wrong');
@@ -13,9 +12,7 @@ const verifyEmail = async (req, res, next) => {
     verify: true,
     verificationToken: '',
   });
-  res.json({
-    message: 'Verification success',
-  });
+  res.redirect('http://localhost:3000/login');
 };
 
 module.exports = verifyEmail;
