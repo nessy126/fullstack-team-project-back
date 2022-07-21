@@ -74,6 +74,7 @@ const trainingAddJoiSchema = Joi.object({
 });
 
 const statisticsAddJoiSchema = Joi.object({
+  trainingID: Joi.string().required(),
   date: Joi.string().required(),
   time: Joi.string().required(),
   pagesRead: Joi.number().required()
@@ -82,6 +83,7 @@ const statisticsAddJoiSchema = Joi.object({
 const finishDataJoiSchema = Joi.object({
   trainingID: Joi.string().required(),
   factEndTraining: Joi.number().required(),
+  booksId: Joi.array().required()//ошибка?
 })
 
 const Training = model('training', trainingSchema);
