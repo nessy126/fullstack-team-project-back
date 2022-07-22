@@ -8,7 +8,7 @@ const SUCCESS_MESSAGE = `Database connection successful`;
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    app.listen(PORT);
+    app.listen(8000);
     console.log(SUCCESS_MESSAGE);
   })
   .catch(err => {

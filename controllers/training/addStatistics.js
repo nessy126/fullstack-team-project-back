@@ -1,8 +1,31 @@
+const { Training } = require('../../models/training');
+const { Book } = require('../../models/book');
+
 const addStatistics = async (req, res) => {
-  const {_id}= req.user 
-  console.log(_id);
+  const { trainingID, date, time, pagesRead, idBook } = req.body;
 
-  res.json("addStatistics")
-}
+  const training = await Training.updateOne(
+    { _id: trainingID },
+    {
+      $push: {
+        statistics: {
+          $each: [{ date: date, time: time, pagesRead: pagesRead }],
+        },
+      },
+    }
+  );
 
-module.exports = addStatistics
+  const books = await Book.updateOne(
+    { _id: idBook },
+    {
+      $inc: {
+        pageFinished: +pagesRead,
+        'metrics.orders': 1,
+      },
+    }
+  );
+
+  res.json(training);
+};
+
+module.exports = addStatistics;

@@ -74,15 +74,18 @@ const trainingAddJoiSchema = Joi.object({
 });
 
 const statisticsAddJoiSchema = Joi.object({
-  date: Joi.string().required(),
+  trainingID: Joi.string().required(),
+  date: Joi.date().required(),
   time: Joi.string().required(),
-  pagesRead: Joi.number().required()
-})
+  pagesRead: Joi.number().required(),
+  idBook: Joi.string().required(),
+});
 
 const finishDataJoiSchema = Joi.object({
   trainingID: Joi.string().required(),
   factEndTraining: Joi.number().required(),
-})
+  booksId: Joi.array().required(), //ошибка?
+});
 
 const Training = model('training', trainingSchema);
 
@@ -91,6 +94,6 @@ module.exports = {
   joiSchema: {
     start: trainingAddJoiSchema,
     statistics: statisticsAddJoiSchema,
-    finish: finishDataJoiSchema
+    finish: finishDataJoiSchema,
   },
 };

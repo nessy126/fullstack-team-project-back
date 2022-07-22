@@ -7,6 +7,7 @@ const { createError } = require('../../helpers/');
 const addTraining = async ({ user, body }, res) => {
   const { _id } = user;
   const { booksId, endTraining, startTraining } = body;
+
   const booksList = await Book.find({ _id: { $in: booksId } });
 
   const amountOfDays = Math.ceil(
@@ -14,8 +15,7 @@ const addTraining = async ({ user, body }, res) => {
   );
 
   const amountOfPages = booksList.reduce(
-    (sum, { pageTotal }) => sum + pageTotal,
-    0
+    (sum, { pageTotal }) => sum + pageTotal,  0
   );
 
   const pagesPerDay = Math.round(amountOfPages / amountOfDays);
@@ -26,8 +26,9 @@ const addTraining = async ({ user, body }, res) => {
     amountOfDays,
     amountOfPages,
     pagesPerDay,
+    booksId: booksList,
     status: 'inProcess',
-  });
+  })
 
   if (!training) {
     throw createError(404);

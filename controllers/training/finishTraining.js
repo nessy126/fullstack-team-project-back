@@ -1,10 +1,11 @@
 const { createError } = require('../../helpers');
+const { Book } = require('../../models/book');
 const { Training } = require('../../models/training');
 const { User } = require('../../models/user');
 
 const finishTraining = async (req, res) => {
   const {_id} = req.user;
-  const { trainingID, factEndTraining } = req.body;
+  const { trainingID, factEndTraining, booksId } = req.body;
 
   const results = await Training.findByIdAndUpdate(
     { _id: trainingID },
@@ -16,12 +17,21 @@ const finishTraining = async (req, res) => {
     throw createError(404, "This training is not exist")
   }
 
-  const updateUserTraining = await User.findByIdAndUpdate(_id, {isTrainingActive: false} , { new: true })
+  await User.findByIdAndUpdate(_id, {isTrainingActive: false} , { new: true })
+
+  const returnedBooksId = booksId.filter(book => book.status === 'inReading').map(book => {
+    return book
+  });
+
+  await Book.updateMany(
+    { _id: { $in: returnedBooksId } },
+    { status: 'goingToRead' })
 
   res.json({
     user: {
     isTrainingActive: false
   },
+  booksGoingToReadAgain: returnedBooksId,
   training: results
 
 });
