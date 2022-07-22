@@ -31,6 +31,11 @@ router.patch(
 );
 
 // Возвращает весь массив статистики, и массив с обновленными книгами в тренировке
-router.patch('/statistics', authenticate, ctrlWrapper(ctrl.addStatistics));
+router.patch(
+  '/statistics',
+  authenticate,
+  validateBody(joiSchema.statistics),
+  ctrlWrapper(ctrl.addStatistics)
+);
 
 module.exports = router;
