@@ -1,14 +1,31 @@
-const { Training } = require("../../models/training")
-// еще не работает
-// надо читать
-// https://www.mongodb.com/docs/manual/reference/operator/update/push/
+const { Training } = require('../../models/training');
+const { Book } = require('../../models/book');
+
 const addStatistics = async (req, res) => {
-  const {_id}= req.user 
-  const {trainingID, date, time, pagesRead} = req.body
-  console.log(date, time, pagesRead);
-  const training = await Training.findByIdAndUpdate({trainingID}, { $push: { statistics: {date, time, pagesRead} } } )
+  const { trainingID, date, time, pagesRead, idBook } = req.body;
 
-  res.json(training)
-}
+  const training = await Training.updateOne(
+    { _id: trainingID },
+    {
+      $push: {
+        statistics: {
+          $each: [{ date: date, time: time, pagesRead: pagesRead }],
+        },
+      },
+    }
+  );
 
-module.exports = addStatistics
+  const books = await Book.updateOne(
+    { _id: idBook },
+    {
+      $inc: {
+        pageFinished: +pagesRead,
+        'metrics.orders': 1,
+      },
+    }
+  );
+
+  res.json(training);
+};
+
+module.exports = addStatistics;
