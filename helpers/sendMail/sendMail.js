@@ -3,9 +3,9 @@ const { createError } = require('../errors');
 
 require('dotenv').config();
 
-const { SENDGRID_API_kEY } = process.env;
+const { SENDGRID_API_KEY } = process.env;
 
-sgMail.setApiKey(SENDGRID_API_kEY);
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 const sendMail = async data => {
   try {
