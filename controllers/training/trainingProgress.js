@@ -8,7 +8,6 @@ const trainingProgress = async ({ user }, res) => {
     '-createdAt -updatedAt -owner'
   ).populate('booksId', '-createdAt -updatedAt');
 
-  console.log('result', result);
   if (!result) {
     throw createError(404);
   }
