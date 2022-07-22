@@ -10,7 +10,6 @@ const booksRouter = require('./routes/api/books');
 const trainingRouter = require('./routes/api/training');
 // import swaggerUi from "swagger-ui-express";
 // import * as swaggerDocument from '../swager/openapi.json';
-// console.log(first)
 
 app.use(cors());
 app.use(express.json());
