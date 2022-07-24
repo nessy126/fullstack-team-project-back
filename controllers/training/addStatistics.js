@@ -15,8 +15,6 @@ const addStatistics = async (req, res) => {
     }
   );
 
-  const trainingStatistics = await Training.findById(trainingID);
-
   const books = await Book.updateOne(
     { _id: idBook },
     {
@@ -27,7 +25,12 @@ const addStatistics = async (req, res) => {
     }
   );
 
-  res.json(trainingStatistics.statistics);
+  const result = await Training.findOne(
+    { _id: trainingID },
+    '-createdAt -updatedAt -owner'
+  ).populate('booksId', '-createdAt -updatedAt');
+
+  res.json(result);
 };
 
 module.exports = addStatistics;
