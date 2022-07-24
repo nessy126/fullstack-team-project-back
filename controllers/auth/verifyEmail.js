@@ -14,8 +14,8 @@ const verifyEmail = async (req, res) => {
   });
 
   res.redirect(
-    'https://book-reader-team-project.herokuapp.com/login'
-    // 'http://localhost:8000/login'
+    'https://relaxed-unicorn-ec5d16.netlify.app/login'
+    // 'http://localhost:3000/login'
   );
 };
 
