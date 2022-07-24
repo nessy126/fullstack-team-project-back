@@ -15,7 +15,7 @@ const verifyEmail = async (req, res) => {
 
   res.redirect(
     'https://book-reader-team-project.herokuapp.com/login'
-    // 'http://localhost:3000/login'
+    // 'http://localhost:8000/login'
   );
 };
 
