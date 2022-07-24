@@ -42,12 +42,18 @@ const trainingSchema = Schema(
           type: Date,
           required: true,
         },
-        time: {
-          type: String,
-          required: true,
-        },
         pagesRead: {
           type: Number,
+          min: 1,
+          required: true,
+        },
+        days: {
+          type: String,
+          min: 1,
+          required: true,
+        },
+        time: {
+          type: String,
           min: 1,
           required: true,
         },
@@ -76,9 +82,10 @@ const trainingAddJoiSchema = Joi.object({
 const statisticsAddJoiSchema = Joi.object({
   trainingID: Joi.string().required(),
   date: Joi.date().required(),
-  time: Joi.string().required(),
   pagesRead: Joi.number().required(),
   idBook: Joi.string().required(),
+  days: Joi.string().required(),
+  time: Joi.string().required(),
 });
 
 const finishDataJoiSchema = Joi.object({

@@ -6,6 +6,7 @@ const { User } = require('../../models/user');
 
 const addUser = async (req, res) => {
   const { name, email, password } = req.body;
+  console.log('email :>> ', email);
 
   const existUser = await User.findOne({ email });
   if (existUser) {
