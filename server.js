@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const app = require('./app');
 
-const { DB_HOST, PORT = 8000} = process.env;
+const { DB_HOST, PORT = 8000 } = process.env;
 const SUCCESS_MESSAGE = `Database connection successful`;
 
 mongoose
@@ -10,7 +10,7 @@ mongoose
   .then(() => {
     app.listen(PORT);
     console.log(SUCCESS_MESSAGE);
-    console.log('PROT: ', PORT);
+    console.log('PORT: ', PORT);
   })
   .catch(err => {
     console.log(err.message);
