@@ -26,8 +26,8 @@ const addUser = async (req, res) => {
   const mail = {
     to: email,
     subject: 'Confirm email',
-    html: `<a target='_blank' href='https://book-reader-team-project.herokuapp.com/api/users/verify/${verificationToken}'>Click to confirm your email</a>`,
-    // html: `<a target='_blank' href='http://localhost:8000/api/users/verify/${verificationToken}'>Click to confirm your email</a>`,
+    // html: `<a target='_blank' href='https://book-reader-team-project.herokuapp.com/api/users/verify/${verificationToken}'>Click to confirm your email</a>`,
+    html: `<a target='_blank' href='http://localhost:8000/api/users/verify/${verificationToken}'>Click to confirm your email</a>`,
   };
 
   await sendMail(mail);

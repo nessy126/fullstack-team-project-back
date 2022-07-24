@@ -1,8 +1,5 @@
 const addFeedBack = async (req, res) => {
-  const {bookId} = req.params;
-  
-  
-  console.log("addFeedBack");
-}
+  const { bookId } = req.params;
+};
 
-module.exports = addFeedBack
+module.exports = addFeedBack;
