@@ -4,7 +4,7 @@ const { createError } = require('../../helpers');
 const trainingProgress = async ({ user }, res) => {
   const { _id } = user;
   const result = await Training.findOne(
-    { owner: _id },
+    { owner: _id, status: "inProcess" },
     '-createdAt -updatedAt -owner'
   ).populate('booksId', '-createdAt -updatedAt');
 
