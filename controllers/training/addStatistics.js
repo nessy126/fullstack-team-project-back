@@ -2,7 +2,7 @@ const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
 
 const addStatistics = async (req, res) => {
-  const { trainingID, date, pagesRead, idBook, days, time } = req.body;
+  const { trainingID, date, pagesRead, idBook, days, time, totalPage } = req.body;
 
   const training = await Training.updateOne(
     { _id: trainingID },

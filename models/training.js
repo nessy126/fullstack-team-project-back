@@ -86,6 +86,7 @@ const statisticsAddJoiSchema = Joi.object({
   idBook: Joi.string().required(),
   days: Joi.string().required(),
   time: Joi.string().required(),
+  totalPage: Joi.number().required()
 });
 
 const finishDataJoiSchema = Joi.object({
