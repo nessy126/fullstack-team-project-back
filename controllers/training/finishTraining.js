@@ -17,21 +17,16 @@ const finishTraining = async (req, res) => {
     throw createError(404, "This training is not exist")
   }
 
-  await User.findByIdAndUpdate(_id, {isTrainingActive: false} , { new: true })
-
-  const returnedBooksId = booksId.filter(book => book.status === 'inReading').map(book => {
-    return book
-  });
+  const {isTrainingActive} = await User.findByIdAndUpdate(_id, {isTrainingActive: false} , { new: true })
 
   await Book.updateMany(
-    { _id: { $in: returnedBooksId } },
+    { _id: { $in: booksId } },
     { status: 'goingToRead' })
 
   res.json({
     user: {
-    isTrainingActive: false
+      isTrainingActive
   },
-  booksGoingToReadAgain: returnedBooksId,
   training: results
 
 });

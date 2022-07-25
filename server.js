@@ -10,7 +10,6 @@ mongoose
   .then(() => {
     app.listen(PORT);
     console.log(SUCCESS_MESSAGE);
-    console.log('PORT: ', PORT);
   })
   .catch(err => {
     console.log(err.message);
