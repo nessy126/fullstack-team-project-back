@@ -5,13 +5,13 @@ const { User } = require('../../models/user');
 
 const finishTraining = async (req, res) => {
   const {_id} = req.user;
-  const { trainingID, factEndTraining, booksId } = req.body;
+  const {IdTraining} = req.params;
 
   const results = await Training.findByIdAndUpdate(
     { _id: trainingID },
     { factEndTraining, status: 'finished' },
     { new: true }
-  );
+  ).populate("booksId");
 
   if (!results) {
     throw createError(404, "This training is not exist")
@@ -19,8 +19,11 @@ const finishTraining = async (req, res) => {
 
   const {isTrainingActive} = await User.findByIdAndUpdate(_id, {isTrainingActive: false} , { new: true })
 
+  const booksUpdate = results.booksId.filter(book => book.status === "inReading")
+  .map(book => book._id)
+
   await Book.updateMany(
-    { _id: { $in: booksId } },
+    { _id: { $in: booksUpdate } },
     { status: 'goingToRead' })
 
   res.json({
@@ -28,7 +31,6 @@ const finishTraining = async (req, res) => {
       isTrainingActive
   },
   training: results
-
 });
 };
 

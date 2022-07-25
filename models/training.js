@@ -57,6 +57,12 @@ const trainingSchema = Schema(
           min: 1,
           required: true,
         },
+        pageTotal: {
+          type: Number,
+          min: 1,
+          required: true,
+        }
+        
       },
     ],
     owner: {
@@ -86,7 +92,7 @@ const statisticsAddJoiSchema = Joi.object({
   idBook: Joi.string().required(),
   days: Joi.string().required(),
   time: Joi.string().required(),
-  totalPage: Joi.number().required()
+  pageTotal: Joi.number().required(),
 });
 
 const finishDataJoiSchema = Joi.object({

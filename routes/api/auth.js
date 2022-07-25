@@ -11,7 +11,7 @@ router.post(
   ctrlWrapper(ctrl.signUp)
 );
 
-router.post(
+router.get(
   '/login',
   validateBody(JoiSchema.loginUser),
   ctrlWrapper(ctrl.login)
