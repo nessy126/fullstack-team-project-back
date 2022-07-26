@@ -19,7 +19,8 @@ router.post(
   '/',
   authenticate,
   validateBody(joiSchema.start),
-  ctrlWrapper(ctrl.start)
+  ctrlWrapper(ctrl.start),
+  ctrlWrapper(ctrl.finishByBook)
 );
 
 //Ставит статус и время фактического завершения тренировки
@@ -35,7 +36,8 @@ router.patch(
   '/:idTraining/statistics',
   authenticate,
   validateBody(joiSchema.statistics),
-  ctrlWrapper(ctrl.addStatistics)
+  ctrlWrapper(ctrl.addStatistics),
+  ctrlWrapper(ctrl.finishByBook)
 );
 
 module.exports = router;

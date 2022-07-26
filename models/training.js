@@ -17,10 +17,6 @@ const trainingSchema = Schema(
       type: Number,
       required: [true, 'Training end date required.'],
     },
-    factEndTraining: {
-      type: Number,
-      default: null,
-    },
     amountOfDays: {
       type: Number,
       min: [1, 'Training should be minimum 1 day long.'],
@@ -38,7 +34,7 @@ const trainingSchema = Schema(
     },
     statistics: [
       {
-        date: {
+        dateNow: {
           type: Date,
           required: true,
         },
@@ -47,14 +43,14 @@ const trainingSchema = Schema(
           min: 1,
           required: true,
         },
-        days: {
+        dateShow: {
           type: String,
-          min: 1,
+          min: 10,
           required: true,
         },
         time: {
           type: String,
-          min: 1,
+          min: 8,
           required: true,
         },
       },
@@ -80,13 +76,10 @@ const trainingAddJoiSchema = Joi.object({
 });
 
 const statisticsAddJoiSchema = Joi.object({
-  trainingID: Joi.string().required(),
-  date: Joi.date().required(),
+  dateNow: Joi.date().required(),
   pagesRead: Joi.number().required(),
-  idBook: Joi.string().required(),
-  days: Joi.string().required(),
+  dateShow: Joi.string().required(),
   time: Joi.string().required(),
-  pageTotal: Joi.number().required(),
 });
 
 const finishDataJoiSchema = Joi.object({
