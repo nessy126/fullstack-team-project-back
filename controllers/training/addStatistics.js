@@ -2,94 +2,96 @@ const { Training } = require('../../models/training');
 const { Book } = require('../../models/book');
 
 const addStats = (pagesRead, training) => {
+  // startInd становится undefind если нет книг со статусо в прочтении
+  let startInd = training.booksId.findIndex(el => el.status === 'inReading');
 
-  let startInd = training.booksId.findIndex(el => el.status === "inReading");
+  if (startInd === -1) {
+    return "finish";
+  }
+
   let pageLeft = pagesRead;
+
   const booksUpdate = [];
+  // ЗАВЕРШЕНИЕ ТРЕНИРОВКИ
+  //хочу сделать сравнение, что если (amountOfBook - 1) === startInd, то 
+  // return "finish";?
+  const amountOfBook = training.booksId.length 
 
-  for ( ; startInd < training.booksId.length; startInd++) {
-    const chooseBook = training.booksId[startInd]
-    booksUpdate.push(chooseBook)
+  for (; startInd < training.booksId.length; startInd++) {
+    const chooseBook = training.booksId[startInd];
+    booksUpdate.push(chooseBook);
 
-    const bookPageLeft = chooseBook.pageTotal - chooseBook.pageFinished; //10
-    if (bookPageLeft > pageLeft) {
+    const inbookPageLeft = chooseBook.pageTotal - chooseBook.pageFinished;
+    if (inbookPageLeft > pageLeft) {
       chooseBook.pageFinished += pageLeft;
-      break
-  
-    } else if (bookPageLeft === pageLeft) {
+      break;
+    } else if (inbookPageLeft === pageLeft) {
       chooseBook.pageFinished += pageLeft;
       chooseBook.status = 'finished';
-      break
-  
-    } else if (bookPageLeft < pageLeft) {
-      chooseBook.pageFinished = pagesLeft;
+      if ((amountOfBook - 1) === startInd) {
+        return {next: "updateAndFinish",
+        books: booksUpdate
+      };
+      }
+      break;
+    } else if (inbookPageLeft < pageLeft) {
+      chooseBook.pageFinished = chooseBook.pageTotal
       chooseBook.status = 'finished';
-      pageLeft -= bookPageLeft
+      pageLeft -= inbookPageLeft;
+
+      if ((amountOfBook - 1) === startInd) {
+        return {next: "updateAndFinish",
+        books: booksUpdate
+      };
+      }
     }
   }
+  console.log(booksUpdate)
   return booksUpdate;
-}
+};
 
-const addStatistics = async (req, res) => {
-  const { trainingID, date, pagesRead, idBook, days, time, pageTotal } = req.body;
+const addStatistics = async (req, res, next) => {
+  const { dateNow, pagesRead, dateShow, time } = req.body;
+  const { idTraining } = req.params;
 
-  const training = await Training.findByIdAndUpdate({trainingID}, {statistics})
+  const training = await Training.findByIdAndUpdate(
+    { _id: idTraining },
+    {
+      $push: {
+        statistics: {
+          $each: [{ dateNow, pagesRead, dateShow, time }],
+        },
+      },
+    }
+  )
   .populate('booksId', '-createdAt -updatedAt');
 
-  const booksUpdate = addStats(pagesRead, training)
-  const updatedBook = await Book.updateMany({booksUpdate})
-  //Если все книги прочитаны тренировка завершается
+  const booksUpdate = addStats(pagesRead, training);
+
+    if (booksUpdate === "finish") {
+      next()
+    } else if ( typeof booksUpdate === 'object' ) {
+
+      const promiseAll = booksUpdate.books.map(book => {
+        return Book.findByIdAndUpdate(book._id, {status: book.status, pageFinished: book.pageFinished})
+      })
+
+      await Promise.all(promiseAll)
+      next()
+    } else {
+
+      const promiseAll = booksUpdate.map(book => {
+        return Book.findByIdAndUpdate(book._id, {status: book.status, pageFinished: book.pageFinished})
+      })
+      await Promise.all(promiseAll)
+
+      res.json({
+        training,
+      });
+    }
+ 
+
   
-  
-//   if (pageTotal === pagesRead ) {
-//     const training = await Training.updateOne(
-//       { _id: trainingID },
-//       {
-//         $push: {
-//           statistics: {
-//             $each: [{ date: date, pagesRead: pagesRead, days: days, time: time }],
-//           },
-//         },
-//       }
-//       ).populate('booksId', '-createdAt -updatedAt');
-//       return training;
-//     } else {
-//       const training = await Training.updateOne(
-//         { _id: trainingID },
-//         {
-//           $push: {
-//             statistics: {
-//               $each: [{ date: date, pagesRead: pagesRead, days: days, time: time }],
-//             },
-//           },
-//         }
-//         )
-//         // .populate('booksId', '-createdAt -updatedAt');
-//         console.log(trainingID);
-//   return training;
-// }
-
-//  console.log(training);
-
-//   const books = await Book.updateOne(
-//     { _id: idBook },
-//     {
-//       $inc: {
-//         pageFinished: +pagesRead,
-//         'metrics.orders': 1,
-//       },
-//     }
-//   );
-
-  // const result = await Training.findOne(
-
-  //   { _id: trainingID },
-  //   '-createdAt -updatedAt -owner'
-  // ).populate('booksId', '-createdAt -updatedAt');
-  res.json({
-    training,
-    updatedBook
-  });
 };
 
 module.exports = addStatistics;
