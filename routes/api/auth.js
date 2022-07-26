@@ -23,6 +23,6 @@ router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
 
 router.post('/verify', ctrlWrapper(ctrl.resendVerifyEmail));
 
-router.post('/logout', authenticate, ctrlWrapper(ctrl.logOut));
+router.get('/logout', authenticate, ctrlWrapper(ctrl.logOut));
 
 module.exports = router;
