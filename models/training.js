@@ -57,12 +57,6 @@ const trainingSchema = Schema(
           min: 1,
           required: true,
         },
-        pageTotal: {
-          type: Number,
-          min: 1,
-          required: true,
-        }
-        
       },
     ],
     owner: {

@@ -27,7 +27,6 @@ const addStats = (pagesRead, training) => {
       pageLeft -= bookPageLeft
     }
   }
-
   return booksUpdate;
 }
 
@@ -39,6 +38,7 @@ const addStatistics = async (req, res) => {
 
   const booksUpdate = addStats(pagesRead, training)
   const updatedBook = await Book.updateMany({booksUpdate})
+  //Если все книги прочитаны тренировка завершается
   
   
 //   if (pageTotal === pagesRead ) {
