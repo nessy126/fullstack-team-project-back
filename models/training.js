@@ -76,9 +76,10 @@ const trainingAddJoiSchema = Joi.object({
 });
 
 const statisticsAddJoiSchema = Joi.object({
-  date: Joi.string().required(),
-  time: Joi.string().required(),
+  dateNow: Joi.date().required(),
   pagesRead: Joi.number().required(),
+  dateShow: Joi.string().required(),
+  time: Joi.string().required(),
 });
 
 const Training = model('training', trainingSchema);
