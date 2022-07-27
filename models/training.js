@@ -34,17 +34,23 @@ const trainingSchema = Schema(
     },
     statistics: [
       {
-        date: {
+        dateNow: {
           type: Date,
-          required: true,
-        },
-        time: {
-          type: String,
           required: true,
         },
         pagesRead: {
           type: Number,
           min: 1,
+          required: true,
+        },
+        dateShow: {
+          type: String,
+          min: 10,
+          required: true,
+        },
+        time: {
+          type: String,
+          min: 8,
           required: true,
         },
       },
