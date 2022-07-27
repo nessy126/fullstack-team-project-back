@@ -62,7 +62,8 @@ const addStatistics = async (req, res, next) => {
           $each: [{ dateNow, pagesRead, dateShow, time }],
         },
       },
-    }
+    },
+    {new: true}
   )
   .populate('booksId', '-createdAt -updatedAt');
 
@@ -78,7 +79,9 @@ const addStatistics = async (req, res, next) => {
       await Promise.all(promiseAll)
 
       res.json({
-        training,
+        training: training,
+        books: booksUpdate,
+        user: {isTrainingActive: true}
       });
     } else {
 
