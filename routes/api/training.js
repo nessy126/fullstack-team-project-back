@@ -24,12 +24,7 @@ router.post(
 );
 
 //Ставит статус и время фактического завершения тренировки
-router.get(
-  '/:idTraining/finish',
-  authenticate,
-  validateBody(joiSchema.finish),
-  ctrlWrapper(ctrl.finish)
-);
+router.get('/:idTraining/finish', authenticate, ctrlWrapper(ctrl.finish));
 
 // Возвращает весь массив статистики, и массив с обновленными книгами в тренировке
 router.patch(

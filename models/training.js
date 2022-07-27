@@ -17,6 +17,10 @@ const trainingSchema = Schema(
       type: Number,
       required: [true, 'Training end date required.'],
     },
+    factEndTraining: {
+      type: Number,
+      default: null,
+    },
     amountOfDays: {
       type: Number,
       min: [1, 'Training should be minimum 1 day long.'],
@@ -34,23 +38,17 @@ const trainingSchema = Schema(
     },
     statistics: [
       {
-        dateNow: {
+        date: {
           type: Date,
+          required: true,
+        },
+        time: {
+          type: String,
           required: true,
         },
         pagesRead: {
           type: Number,
           min: 1,
-          required: true,
-        },
-        dateShow: {
-          type: String,
-          min: 10,
-          required: true,
-        },
-        time: {
-          type: String,
-          min: 8,
           required: true,
         },
       },
@@ -76,16 +74,9 @@ const trainingAddJoiSchema = Joi.object({
 });
 
 const statisticsAddJoiSchema = Joi.object({
-  dateNow: Joi.date().required(),
-  pagesRead: Joi.number().required(),
-  dateShow: Joi.string().required(),
+  date: Joi.string().required(),
   time: Joi.string().required(),
-});
-
-const finishDataJoiSchema = Joi.object({
-  trainingID: Joi.string().required(),
-  factEndTraining: Joi.number().required(),
-  booksId: Joi.array().required(), //ошибка?
+  pagesRead: Joi.number().required(),
 });
 
 const Training = model('training', trainingSchema);
@@ -95,6 +86,5 @@ module.exports = {
   joiSchema: {
     start: trainingAddJoiSchema,
     statistics: statisticsAddJoiSchema,
-    finish: finishDataJoiSchema,
   },
 };
