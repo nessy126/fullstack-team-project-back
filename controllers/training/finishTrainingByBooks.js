@@ -26,7 +26,7 @@ const finishTrainingByBooks = async (req, res) => {
 
   res.json({
     training: results,
-    user: {isTrainingActive: isTrainingActive}
+     user: {isTrainingActive: isTrainingActive}
   })
 };
 

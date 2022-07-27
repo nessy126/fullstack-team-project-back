@@ -46,7 +46,7 @@ const addStats = (pagesRead, training) => {
       }
     }
   }
-  console.log(booksUpdate)
+
   return booksUpdate;
 };
 
@@ -80,7 +80,6 @@ const addStatistics = async (req, res, next) => {
 
       res.json({
         training: training,
-        books: booksUpdate,
         user: {isTrainingActive: true}
       });
     } else {
