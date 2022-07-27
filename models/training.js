@@ -82,12 +82,6 @@ const statisticsAddJoiSchema = Joi.object({
   time: Joi.string().required(),
 });
 
-const finishDataJoiSchema = Joi.object({
-  trainingID: Joi.string().required(),
-  factEndTraining: Joi.number().required(),
-  booksId: Joi.array().required(), //ошибка?
-});
-
 const Training = model('training', trainingSchema);
 
 module.exports = {
@@ -95,6 +89,5 @@ module.exports = {
   joiSchema: {
     start: trainingAddJoiSchema,
     statistics: statisticsAddJoiSchema,
-    finish: finishDataJoiSchema,
   },
 };

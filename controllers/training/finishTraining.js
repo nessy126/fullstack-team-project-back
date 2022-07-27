@@ -12,19 +12,18 @@ const finishTraining = async (req, res) => {
     { status: 'finished' },
     { new: true }
   ).populate('booksId');
-  
+
   if (!results) {
     throw createError(404, 'This training is not exist');
   }
-  
+
   const { isTrainingActive } = await User.findByIdAndUpdate(
     _id,
     { isTrainingActive: false },
     { new: true }
-    );
-    
+  );
 
-    /////////////////////
+  /////////////////////
 
   const booksUpdate = results.booksId
     .filter(book => book.status === 'inReading')
