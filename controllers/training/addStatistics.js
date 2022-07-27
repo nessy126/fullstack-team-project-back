@@ -70,15 +70,7 @@ const addStatistics = async (req, res, next) => {
 
     if (booksUpdate === "finish") {
       next()
-    } else if ( typeof booksUpdate === 'object' ) {
-
-      const promiseAll = booksUpdate.books.map(book => {
-        return Book.findByIdAndUpdate(book._id, {status: book.status, pageFinished: book.pageFinished})
-      })
-
-      await Promise.all(promiseAll)
-      next()
-    } else {
+    } else if (Array.isArray(booksUpdate)) {
 
       const promiseAll = booksUpdate.map(book => {
         return Book.findByIdAndUpdate(book._id, {status: book.status, pageFinished: book.pageFinished})
@@ -88,10 +80,15 @@ const addStatistics = async (req, res, next) => {
       res.json({
         training,
       });
-    }
- 
+    } else {
 
-  
+      const promiseAll = booksUpdate.books.map(book => {
+        return Book.findByIdAndUpdate(book._id, {status: book.status, pageFinished: book.pageFinished})
+      })
+
+      await Promise.all(promiseAll)
+      next()  
 };
+}
 
 module.exports = addStatistics;
